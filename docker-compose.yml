@@ -12,16 +12,17 @@ services:
       - /var/run/docker.sock:/var/run/docker.sock:ro
       - ./infra/traefik/traefik.yml:/etc/traefik/traefik.yml:ro
 
-  vault:
-    image: hashicorp/vault:latest
-    container_name: tourmaline-vault
-    ports:
-      - "8200:8200"
-    environment:
-      VAULT_DEV_ROOT_TOKEN_ID: "tourmaline-root-token"
-      VAULT_DEV_LISTEN_ADDRESS: "0.0.0.0:8200"
-    cap_add:
-      - IPC_LOCK
+  # vault:
+  #   image: hashicorp/vault:latest
+  #   container_name: tourmaline-vault
+  #   command: ["vault", "server", "-config=/vault/config/local.json"]
+  #   ports:
+  #     - "8200:8200"
+  #   volumes:
+  #     - vault_data:/vault/file
+  #     - ./infra/vault/config:/vault/config
+  #   cap_add:
+  #     - IPC_LOCK
 
   # --- FRONTEND (ENTRY POINT) ---
   # web-frontend:
@@ -35,37 +36,6 @@ services:
   #     - NEXT_PUBLIC_API_GATEWAY_URL=http://localhost:8000
   #   depends_on:
   #     - api-gateway
-
-  # # --- CORE GATEWAY & AUTH SERVICES ---
-  # api-gateway:
-  #   build:
-  #     context: ./services/gateway
-  #     dockerfile: Dockerfile
-  #   container_name: tourmaline-api-gateway
-  #   ports:
-  #     - "8000:8000"
-  #   environment:
-  #     - AUTH_SERVICE_URL=http://auth-service:50051
-  #     - VAULT_ADDR=http://vault:8200
-  #   depends_on:
-  #     - auth-service
-  #     - vault
-
-  # auth-service:
-  #   build:
-  #     context: ./services/auth
-  #     dockerfile: Dockerfile
-  #   container_name: tourmaline-auth-service
-  #   ports:
-  #     - "50051:50051" # gRPC
-  #   environment:
-  #     - POSTGRES_URI=postgres://tourmaline:tourmaline_pass@postgres:5432/tourmaline_db?sslmode=disable
-  #     - REDIS_URI=redis:6379
-  #     - VAULT_ADDR=http://vault:8200
-  #   depends_on:
-  #     - postgres
-  #     - redis
-  #     - vault
 
   # --- DATABASES & BROKERS ---
   postgres:
@@ -115,4 +85,6 @@ services:
 
 volumes:
   pgdata:
+    driver: local
+  vault_data:
     driver: local

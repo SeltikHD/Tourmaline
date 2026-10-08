@@ -7,6 +7,7 @@
 .env
 *.env
 infra/vault/data/
+vault-init.json
 
 # Build & Dependencies
 node_modules/
