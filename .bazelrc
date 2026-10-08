@@ -1,0 +1,10 @@
+# Activate Bzlmod (Bazel Module System)
+build --enable_bzlmod
+
+# Use all available CPU cores for building
+build --jobs=auto
+build --show_timestamps
+build --color=yes
+
+# Show errors in test output
+test --test_output=errors 
