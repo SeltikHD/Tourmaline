@@ -1,0 +1,21 @@
+# IDEs & OS
+.vscode/
+.idea/
+.DS_Store
+
+# Environment & Secrets
+.env
+*.env
+infra/vault/data/
+
+# Build & Dependencies
+node_modules/
+dist/
+build/
+bin/
+__pycache__/
+*.pyc
+target/
+.elixir_ls/
+_build/
+deps/

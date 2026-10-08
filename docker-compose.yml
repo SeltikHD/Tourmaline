@@ -1,0 +1,118 @@
+version: "3.8"
+
+services:
+  # --- INGRESS & SECRETS ---
+  traefik:
+    image: traefik:v3.0
+    container_name: tourmaline-traefik
+    command:
+      - "--configFile=/etc/traefik/traefik.yml"
+    ports:
+      - "80:80"
+      - "8082:8080"
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+      - ./infra/traefik/traefik.yml:/etc/traefik/traefik.yml:ro
+
+  vault:
+    image: hashicorp/vault:latest
+    container_name: tourmaline-vault
+    ports:
+      - "8200:8200"
+    environment:
+      VAULT_DEV_ROOT_TOKEN_ID: "tourmaline-root-token"
+      VAULT_DEV_LISTEN_ADDRESS: "0.0.0.0:8200"
+    cap_add:
+      - IPC_LOCK
+
+  # --- FRONTEND (ENTRY POINT) ---
+  # web-frontend:
+  #   build:
+  #     context: ./apps/web
+  #     dockerfile: Dockerfile
+  #   container_name: tourmaline-web-frontend
+  #   ports:
+  #     - "8080:8080"
+  #   environment:
+  #     - NEXT_PUBLIC_API_GATEWAY_URL=http://localhost:8000
+  #   depends_on:
+  #     - api-gateway
+
+  # # --- CORE GATEWAY & AUTH SERVICES ---
+  # api-gateway:
+  #   build:
+  #     context: ./services/gateway
+  #     dockerfile: Dockerfile
+  #   container_name: tourmaline-api-gateway
+  #   ports:
+  #     - "8000:8000"
+  #   environment:
+  #     - AUTH_SERVICE_URL=http://auth-service:50051
+  #     - VAULT_ADDR=http://vault:8200
+  #   depends_on:
+  #     - auth-service
+  #     - vault
+
+  # auth-service:
+  #   build:
+  #     context: ./services/auth
+  #     dockerfile: Dockerfile
+  #   container_name: tourmaline-auth-service
+  #   ports:
+  #     - "50051:50051" # gRPC
+  #   environment:
+  #     - POSTGRES_URI=postgres://tourmaline:tourmaline_pass@postgres:5432/tourmaline_db?sslmode=disable
+  #     - REDIS_URI=redis:6379
+  #     - VAULT_ADDR=http://vault:8200
+  #   depends_on:
+  #     - postgres
+  #     - redis
+  #     - vault
+
+  # --- DATABASES & BROKERS ---
+  postgres:
+    image: postgres:18.6-alpine
+    container_name: tourmaline-postgres
+    restart: always
+    environment:
+      POSTGRES_USER: tourmaline
+      POSTGRES_PASSWORD: tourmaline_pass
+      POSTGRES_DB: tourmaline_db
+      PGDATA: /var/lib/postgresql/data/18
+    ports:
+      - "5432:5432"
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    shm_size: 128mb
+
+  redis:
+    image: redis:7-alpine
+    container_name: tourmaline-redis
+    ports:
+      - "6379:6379"
+
+  rabbitmq:
+    image: rabbitmq:3-management-alpine
+    container_name: tourmaline-rabbitmq
+    ports:
+      - "5672:5672"
+      - "15672:15672"
+
+  # --- OBSERVABILITY ---
+  prometheus:
+    image: prom/prometheus:latest
+    container_name: tourmaline-prometheus
+    ports:
+      - "9090:9090"
+
+  grafana:
+    image: grafana/grafana:latest
+    container_name: tourmaline-grafana
+    ports:
+      - "3000:3000"
+    environment:
+      - GF_SECURITY_ADMIN_PASSWORD=admin
+
+volumes:
+  pgdata:
+    driver: local
