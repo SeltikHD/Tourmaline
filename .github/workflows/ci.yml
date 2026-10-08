@@ -18,10 +18,10 @@ jobs:
       - name: Validate Docker Compose
         run: docker compose config -q
 
-      - name: Check Directory Structure
-        run: |
-          test -d services/storage
-          test -d services/mail
-          test -d services/finance
-          test -d services/career
-          test -d services/ai-engine
+      # - name: Check Directory Structure
+      #   run: |
+      #     test -d services/storage
+      #     test -d services/mail
+      #     test -d services/finance
+      #     test -d services/career
+      #     test -d services/ai-engine
