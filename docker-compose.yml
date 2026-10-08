@@ -24,6 +24,25 @@ services:
   #   cap_add:
   #     - IPC_LOCK
 
+  # --- IDENTITY & ACCESS MANAGEMENT (IAM) ---
+  keycloak:
+    image: quay.io/keycloak/keycloak:26.0
+    container_name: tourmaline-keycloak
+    command: start-dev
+    ports:
+      - "8081:8080"
+    environment:
+      KC_BOOTSTRAP_ADMIN_USERNAME: admin
+      KC_BOOTSTRAP_ADMIN_PASSWORD: admin_password
+      # PostgreSQL configuration for Keycloak
+      KC_DB: postgres
+      KC_DB_URL: jdbc:postgresql://postgres:5432/tourmaline_db
+      KC_DB_USERNAME: tourmaline
+      KC_DB_PASSWORD: tourmaline_pass
+      KC_DB_SCHEMA: keycloak
+    depends_on:
+      - postgres
+
   # --- FRONTEND (ENTRY POINT) ---
   # web-frontend:
   #   build:
