@@ -11,6 +11,7 @@ infra/vault/data/
 # Build & Dependencies
 node_modules/
 dist/
+tmp/
 build/
 bin/
 __pycache__/
