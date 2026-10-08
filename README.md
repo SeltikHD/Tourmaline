@@ -1,6 +1,6 @@
 # 💎 Tourmaline — Smart Personal Executive OS
 
-**Tourmaline** is a distributed personal operational ecosystem, built as a **continuous learning playground ("infinite project")**. The project's goal is to centralize productivity, financial management, communication intelligence, career automation, and file management in a modern event-driven microservices architecture.
+**Tourmaline** is a distributed personal operational ecosystem, built as a **continuous learning playground ("infinite project")** for me. The project's goal is to centralize productivity, financial management, communication intelligence, career automation, and file management in a modern event-driven microservices architecture.
 
 ## 🎯 General Idea & Philosophy
 
@@ -17,11 +17,11 @@
 
 ## 🚀 Main Features
 
-* 📁 **Universal File Aggregator (`tourmaline-storage`):** Indexing and centralized access to multiple cloud providers (multi-account Google Drive) and local file systems.
-* 📧 **Smart Email Client (`tourmaline-mail`):** Unification of IMAP/SMTP accounts with intelligent replies, inline suggestions, summarization, and automatic categorization via AI.
-* 🤖 **Multimodal Personal Assistant (`tourmaline-assistant`):** Voice and text processing, task management, reminders, appointments, and intelligent intent routing.
-* 💳 **Personal Financial Management (`tourmaline-finance`):** Import of bank/credit card statements, investment intelligence, transactional reports, and predictive consumption analysis.
-* 💼 **Career & Job Automation (`tourmaline-career`):** Job scraping, intelligent profile-based filtering, integration with the Go/Wails engine for generating tailored PDF résumés, and automated application submission.
+* 📁 **Universal File Aggregator (`storage`):** Indexing and centralized access to multiple cloud providers (multi-account Google Drive) and local file systems.
+* 📧 **Smart Email Client (`mail`):** Unification of IMAP/SMTP accounts with intelligent replies, inline suggestions, summarization, and automatic categorization via AI.
+* 🤖 **Multimodal Personal Assistant (`assistant`):** Voice and text processing, task management, reminders, appointments, and intelligent intent routing.
+* 💳 **Personal Financial Management (`finance`):** Import of bank/credit card statements, investment intelligence, transactional reports, and predictive consumption analysis.
+* 💼 **Career & Job Automation (`career`):** Job scraping, intelligent profile-based filtering, integration with the Go/Wails engine for generating tailored PDF résumés, and automated application submission.
 
 ## 🏛️ System Architecture
 
@@ -61,22 +61,20 @@ The project adopts a **Monorepo** strategy for code governance, keeping microser
 
 ### 1. Backend Services
 
-```text
-| Service                    | Technologies / Frameworks                             | Purpose                                                                     |
-| -------------------------- | ----------------------------------------------------- | --------------------------------------------------------------------------- |
-| **`tourmaline-storage`**   | Go (Chi, Fiber, Gin, Echo)                            | Local/cloud file indexing, high-speed I/O and streams.                      |
-| **`tourmaline-mail`**      | Elixir (Phoenix, Absinthe)                            | Concurrent IMAP/SMTP connections, real-time webhooks and GraphQL.           |
-| **`tourmaline-finance`**   | Java / Kotlin (Spring Boot, Micronaut, Quarkus)       | Transactional processing, precision calculations and Open Finance.          |
-| **`tourmaline-career`**    | Node.js / Deno / Bun (NestJS, Fastify, tRPC, Express) | Job scraping, integration with Wails (Go) engine and application workflows. |
-| **`tourmaline-ai-engine`** | Python (FastAPI, Django, Flask)                       | AI agent, receipt OCR, statistical models and LLM routing.                  |
-```
+| Service         | Technologies / Frameworks                             | Purpose                                                                     |
+| --------------- | ----------------------------------------------------- | --------------------------------------------------------------------------- |
+| **`storage`**   | Go (Chi, Fiber, Gin, Echo)                            | Local/cloud file indexing, high-speed I/O and streams.                      |
+| **`mail`**      | Elixir (Phoenix, Absinthe)                            | Concurrent IMAP/SMTP connections, real-time webhooks and GraphQL.           |
+| **`finance`**   | Java / Kotlin (Spring Boot, Micronaut, Quarkus)       | Transactional processing, precision calculations and Open Finance.          |
+| **`career`**    | Node.js / Deno / Bun (NestJS, Fastify, tRPC, Express) | Job scraping, integration with Wails (Go) engine and application workflows. |
+| **`ai-engine`** | Python (FastAPI, Django, Flask)                       | AI agent, receipt OCR, statistical models and LLM routing.                  |
 
 ### 2. Frontend & Mobile Clients
 
-* **Web Executive Dashboard:** React (Next.js, Remix) / Vue.js (Nuxt.js, Vite) organized as micro-frontends via Nx and Angular CLI.
+* **Web Executive Dashboard:** React (Next.js, Remix) / Vue.js (Nuxt.js, Vite) organized as micro-frontends.
 * **Quick Tools & Extensions:** Svelte (SvelteKit).
-* **Desktop App:** Wails (Go + HTML/JS/CSS).
-* **Mobile Multiplatform:** Flutter, React Native and Kotlin Multiplatform (KMP).
+* **Desktop App:** Tauri (Rust + Angular)
+* **Mobile Multiplatform:** Flutter or Kotlin Multiplatform (KMP).
 
 ### 3. Machine Learning & Artificial Intelligence
 
@@ -129,8 +127,14 @@ tourmaline/
 
 ## 🗺️ Initial Development Roadmap
 
-* [ ] **Phase 1 — Infrastructure Foundation:** Monorepo setup, base Docker Compose, Vault, Traefik and OpenTelemetry instrumentation.
-* [ ] **Phase 2 — AI Engine and Routing:** Building `tourmaline-ai-engine` (Python/FastAPI) with support for Ollama and external APIs.
-* [ ] **Phase 3 — Career Module:** Implementation of `tourmaline-career` and integration with the local résumé engine in Wails/Go.
-* [ ] **Phase 4 — Financial Module:** Creation of `tourmaline-finance` (Spring Boot/Kotlin) with statement ingestion and OCR via OpenCV.
-* [ ] **Phase 5 — Concurrent Email & Files:** Launch of `tourmaline-mail` (Elixir) and `tourmaline-storage` (Go) with messaging via Kafka/RabbitMQ.
+* [ ] **Phase 1 — Infrastructure & Build Foundation:** Monorepo setup with **Bazel**, base Docker Compose, Vault, Traefik, and OpenTelemetry instrumentation.
+* [ ] **Phase 2 — Core Services (Email & Files):** Implementation of `mail` (Elixir) and `storage` (Go) with messaging (Kafka/RabbitMQ).
+* [ ] **Phase 3 — Web Interface & File/Email Management:** Building the web frontend interface for direct consumption and management of the email and file modules.
+* [ ] **Phase 4 — AI Engine & Routing:** Creation of `ai-engine` (Python/FastAPI) with support for Ollama and external APIs.
+* [ ] **Phase 5 — Career Module:** Implementation of the `career` module and integration with the local résumé engine in Wails/Go.
+* [ ] **Phase 6 — Financial Module:** Creation of `finance` (Spring Boot/Kotlin) with statement ingestion and OCR via OpenCV.
+* [ ] **Phase 7 — Desktop Client:** Development of the desktop client (Tauri + Angular) with notification support and integration with the services.
+* [ ] **Phase 8 — Mobile Client:** Development of the mobile client (Flutter/KMP) with push notification support and integration with the services.
+* [ ] **Phase 9 — Observability & Telemetry:** Implementation of monitoring dashboards and alerts via Grafana/Prometheus.
+* [ ] **Phase 10 — Security & Compliance:** Security review, code audit, and compliance with privacy standards (GDPR, LGPD).
+* [ ] **Phase 11 — Continuous Improvement & Refactoring:** Continuous cycle of improvements, refactorings, and addition of new features based on feedback and real needs.
