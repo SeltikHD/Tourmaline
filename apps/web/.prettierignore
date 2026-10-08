@@ -1,0 +1,6 @@
+.nuxt
+node_modules
+dist
+build
+bazel-*
+.DS_Store
