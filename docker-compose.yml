@@ -1,9 +1,7 @@
-version: "3.8"
-
 services:
   # --- INGRESS & SECRETS ---
   traefik:
-    image: traefik:v3.0
+    image: traefik:v3.7
     container_name: tourmaline-traefik
     command:
       - "--configFile=/etc/traefik/traefik.yml"
@@ -86,13 +84,13 @@ services:
     shm_size: 128mb
 
   redis:
-    image: redis:7-alpine
+    image: redis:8-alpine
     container_name: tourmaline-redis
     ports:
       - "6379:6379"
 
   rabbitmq:
-    image: rabbitmq:3-management-alpine
+    image: rabbitmq:4-management-alpine
     container_name: tourmaline-rabbitmq
     ports:
       - "5672:5672"
