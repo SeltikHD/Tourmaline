@@ -19,3 +19,4 @@ target/
 .elixir_ls/
 _build/
 deps/
+bazel-*
